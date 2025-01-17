@@ -6,6 +6,8 @@ class Constants {
   static const Color blackColor = Color.fromARGB(250, 0, 0, 0);
   static const Color redColor = Color.fromARGB(255, 248, 17, 0);
 // Constants.redColor
+  static const Color greenColor = Colors.green;
+
 
 }
 TextStyle mainTitle (){

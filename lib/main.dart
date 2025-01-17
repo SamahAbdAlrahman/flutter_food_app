@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/screens/home.dart';
 import 'package:food_app/screens/splash.dart';
 
 // import 'package:fluttertoast/fluttertoast.dart';
@@ -17,7 +18,21 @@ void main() {
   // await Hive.deleteFromDisk();
 
   runApp(MyApp());
-
+  }
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Food App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      // home: splash(), //
+      home: home(),
+    );
+  }
 }
 
 
