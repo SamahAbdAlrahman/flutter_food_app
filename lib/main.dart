@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/home.dart';
 import 'package:food_app/screens/splash.dart';
+import 'package:food_app/widgets_and_constants/bottomBar.dart';
+
 
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:google_fonts/google_fonts.dart';
@@ -30,13 +32,11 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: splash(), //
-      home: home(),
+      home: BottomNavbar(),
+
     );
   }
 }
-
-
-
 
 
 

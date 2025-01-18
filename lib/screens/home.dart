@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:food_app/widgets_and_constants/drawer_widget.dart';
 
 import '../data/categoryModel.dart';
 import '../data/foodModel.js.dart';
@@ -15,69 +16,94 @@ class home extends StatefulWidget{
 
 }
 class homeState  extends State<home>{
+  String? selectCategoryID ;
+  late List <FoodItem> filterFoods;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    filterFoods=food; // all food
+
+  }
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-        appBar:AppBarWidget() ,
-        drawer: Drawer(
+    return Container(
+                color: Colors.white,
+
+        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+        child: SingleChildScrollView(
           child: Column(
             children: [
-              Text("data")
-            ],
-          ),
-        ),
-        backgroundColor: Colors.white,
+              SizedBox(height: 22,),
+              ClipRRect(
+                child: Image.asset("assets/classic_burger.jpg"),
+                  borderRadius: BorderRadius.circular(10.0),
+              ),
 
-        // appBar: AppBar(
-      //   title: Text('Home Page'),
-      // ),
-      body:Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18.0),
-        child: Column(
-          children: [
-            SizedBox(height: 22,),
-            ClipRRect(
-              child: Image.asset("assets/classic_burger.jpg"),
-                borderRadius: BorderRadius.circular(10.0),
-            ),
+              SizedBox(
+                height: 150,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: Categories.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(right: 10 , top: 23,bottom: 23  ),
+                      child: GestureDetector(
+                        onTap: (){
+setState(() {
+  selectCategoryID=Categories[index].id;
 
-            SizedBox(
-              height: 135,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: Categories.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(right: 30 , top: 26 ),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            Categories[index].ImageUrl,
-                            width: 48,
-                            height: 50,
-                            // fit: BoxFit.cover,
+  print(Categories[index].name);
+  print(Categories[index].id);
+
+  filterFoods = food.where((item){
+return item.category.id ==selectCategoryID;
+  }).toList();
+
+
+
+});                        },
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Categories[index].id==selectCategoryID
+                                ?Constants.mainColor
+                                :Constants.secColor
+
+
                           ),
-                          SizedBox(height: 8),
-                          Text(
-                            Categories[index].name,
-                            style: TextStyle(
-                              fontSize: 14,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12.0,horizontal: 22),
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  Categories[index].ImageUrl,
+                                  width: 48,
+                                  // height: 50,
+                                  // fit: BoxFit.cover,
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  Categories[index].name,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-            Expanded(
-              child: GridView.builder(
+
+              GridView.builder(
+                shrinkWrap: true, // حتى GridView تاخذ فقط المساحة المطلوبة
+
+                physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
 
@@ -87,27 +113,27 @@ class homeState  extends State<home>{
                   children: [
 
                                 Image.network(
-                                  food[index].imgUrl,
+                                  filterFoods[index].imgUrl,
                                   width: 160,
                                   height: 80,
                                   // fit: BoxFit.cover,
                                 ),
                   Text(
-                                    food[index].name,
+                    filterFoods[index].name,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     ),
                                   ),
                                   Text(
-                                    "\$${food[index].price.toStringAsFixed(2)}",
+                                    "\$${filterFoods[index].price.toStringAsFixed(2)}",
                                     style: TextStyle(
                                       color: Colors.green,
                                       fontSize: 14,
                                     ),
                                   ),
                                   Text(
-                                    food[index].description,
+                                    filterFoods[index].description,
                                     style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 12,
@@ -116,17 +142,17 @@ class homeState  extends State<home>{
                   ],
                   );
                 },
-                itemCount: food.length, // عدد العناصر
-              ),
-            )
+                itemCount: filterFoods.length, // عدد العناصر
+              )
 
 
 
-          ],
+            ],
 
+          ),
         ),
-      )
-    );
+      );
+    
   }
 
 }
