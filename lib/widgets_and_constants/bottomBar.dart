@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:food_app/screens/home.dart';
 import 'package:food_app/widgets_and_constants/constants.dart';
 import 'package:food_app/widgets_and_constants/drawer_widget.dart';
+import '../data/foodModel.dart';
+import '../screens/favorite.dart';
 import '../widgets_and_constants/appBar.dart';
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({super.key});
@@ -11,11 +13,11 @@ class BottomNavbar extends StatefulWidget {
 }
 
 class _BottomNavbarState extends State<BottomNavbar> {
-  int selectedIndex = 0; 
+  int selectedIndex = 0;
 
   final List<Widget> bodyOptions = [
     home(),
-    Center(child: Text('Favorite Page', style: TextStyle(fontSize: 24))),
+    Fav(),
     Center(child: Text('Profile Page', style: TextStyle(fontSize: 24))),
   ];
 
@@ -24,12 +26,15 @@ class _BottomNavbarState extends State<BottomNavbar> {
     return Scaffold(
       appBar:AppBarWidget() ,
         drawer: drawer_widget(),
-      body: bodyOptions[selectedIndex], // الصفحة المعروضة بناءً على التبويب
+      body: bodyOptions[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex, // التبويب النشط
         onTap: (index) {
           setState(() {
-            selectedIndex = index; // تحديث التبويب النشط عند التغيير
+            selectedIndex = index; // تحديث التبويب عند التغيير
+            if (selectedIndex == 1) {
+              bodyOptions[1] = Fav();
+            }
           });
         },
         items: const [

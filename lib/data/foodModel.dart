@@ -1,4 +1,6 @@
 
+import 'package:flutter/cupertino.dart';
+
 import 'categoryModel.dart';
 
 class FoodItem {
@@ -8,6 +10,7 @@ class FoodItem {
   final double price;
   final CategoryModel category;
   final String description;
+  ValueNotifier<bool> isFavorite;
 
   // Constructor
   FoodItem({
@@ -16,10 +19,17 @@ class FoodItem {
     required this.imgUrl,
     required this.price,
     required this.category,
-    this.description='this is description'
-  });
+    this.description = 'This is description',
+    bool isFavorite = false,  // Default value for isFavorite
+  }) : isFavorite = ValueNotifier(isFavorite);
 
+  @override
+  String toString() {
+    return 'FoodItem{name: $name, price: $price, isFavorite: $isFavorite}';
+  }
 }
+List<FoodItem> favoritesList = [];
+
 List<FoodItem> food = [
   FoodItem(
     id: '1',
@@ -84,3 +94,4 @@ List<FoodItem> food = [
     category: Categories[2],
   ),
 ];
+
